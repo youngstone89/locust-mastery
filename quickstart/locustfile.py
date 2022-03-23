@@ -1,12 +1,11 @@
 from json import JSONDecodeError
 import time
 import logging
-from locust import HttpUser, task, between, User
+from locust import HttpUser, constant_throughput, task, between, User
 
 
 class MinioEventsUser(HttpUser):
-    wait_time = between(1, 5)
-
+    wait_time = constant_throughput(66)
     @task
     def minio_events(self):
         with self.client.post("/", json={
